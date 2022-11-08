@@ -1,0 +1,332 @@
+% vim: set spell spelllang=en tw=100 et sw=4 sts=4 foldmethod=marker foldmarker={{{,}}} :
+
+\documentclass{beamer}
+
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{complexity}
+\usepackage{hyperref}
+\usepackage{microtype}
+\usepackage{amsmath}                   % \operatorname
+\usepackage{amsfonts}                  % \mathcal
+\usepackage{amssymb}                   % \nexists
+\usepackage{gnuplot-lua-tikz}          % graphs
+\usepackage[vlined]{algorithm2e} % algorithms
+\usepackage{centernot}
+\usepackage{mathtools}
+\usepackage{listings}
+
+\usetikzlibrary{shapes, arrows, shadows, calc, positioning, fit}
+\usetikzlibrary{decorations.pathreplacing, decorations.pathmorphing, shapes.misc}
+\usetikzlibrary{tikzmark}
+
+\definecolor{uofguniversityblue}{rgb}{0, 0.219608, 0.396078}
+
+\definecolor{uofgheather}{rgb}{0.356863, 0.32549, 0.490196}
+\definecolor{uofgaquamarine}{rgb}{0.603922, 0.72549, 0.678431}
+\definecolor{uofgslate}{rgb}{0.309804, 0.34902, 0.380392}
+\definecolor{uofgrose}{rgb}{0.823529, 0.470588, 0.709804}
+\definecolor{uofgmocha}{rgb}{0.709804, 0.564706, 0.47451}
+\definecolor{uofgsandstone}{rgb}{0.321569, 0.278431, 0.231373}
+\definecolor{uofgforest}{rgb}{0, 0.2, 0.129412}
+\definecolor{uofglawn}{rgb}{0.517647, 0.741176, 0}
+\definecolor{uofgcobalt}{rgb}{0, 0.615686, 0.92549}
+\definecolor{uofgturquoise}{rgb}{0, 0.709804, 0.819608}
+\definecolor{uofgsunshine}{rgb}{1.0, 0.862745, 0.211765}
+\definecolor{uofgpumpkin}{rgb}{1.0, 0.72549, 0.282353}
+\definecolor{uofgthistle}{rgb}{0.584314, 0.070588, 0.447059}
+\definecolor{uofgrust}{rgb}{0.603922, 0.227451, 0.023529}
+\definecolor{uofgburgundy}{rgb}{0.490196, 0.133333, 0.223529}
+\definecolor{uofgpillarbox}{rgb}{0.701961, 0.047059, 0}
+\definecolor{uofglavendar}{rgb}{0.356863, 0.301961, 0.580392}
+
+\tikzset{vertex/.style={draw, circle, inner sep=0pt, minimum size=0.5cm, font=\small\bfseries}}
+\tikzset{notvertex/.style={vertex, color=white, text=black}}
+\tikzset{plainvertex/.style={vertex}}
+\tikzset{vertexc1/.style={vertex, fill=uofgburgundy, text=white}}
+\tikzset{vertexc2/.style={vertex, fill=uofgsandstone, text=white}}
+\tikzset{vertexc3/.style={vertex, fill=uofgforest, text=white}}
+\tikzset{vertexc4/.style={vertex, fill=uofgheather, text=white}}
+\tikzset{edge/.style={color=black!50!white}}
+\tikzset{bedge/.style={ultra thick}}
+\tikzset{edged/.style={color=screengrey, dashed}}
+\tikzset{edgel3/.style={color=uofgrose, ultra thick}}
+
+% {{{ theme things
+\useoutertheme[footline=authortitle]{miniframes}
+\useinnertheme{rectangles}
+
+\setbeamerfont{block title}{size={}}
+\setbeamerfont{title}{size=\large,series=\bfseries}
+\setbeamerfont{section title}{size=\large,series=\mdseries}
+\setbeamerfont{author}{size=\normalsize,series=\mdseries}
+\setbeamercolor*{structure}{fg=uofguniversityblue}
+\setbeamercolor*{palette primary}{use=structure,fg=black,bg=white}
+\setbeamercolor*{palette secondary}{use=structure,fg=white,bg=uofgcobalt}
+\setbeamercolor*{palette tertiary}{use=structure,fg=white,bg=uofguniversityblue}
+\setbeamercolor*{palette quaternary}{fg=white,bg=black}
+
+\setbeamercolor*{titlelike}{parent=palette primary}
+
+\beamertemplatenavigationsymbolsempty
+
+\setbeamertemplate{title page}
+{
+    \begin{tikzpicture}[remember picture, overlay]
+        \node at (current page.north west) {
+            \begin{tikzpicture}[remember picture, overlay]
+                \fill [fill=uofguniversityblue, anchor=north west] (0, 0) rectangle (\paperwidth, -2.6cm);
+            \end{tikzpicture}
+        };
+
+        \node (logo) [anchor=north east, shift={(-0.6cm,-0.6cm)}] at (current page.north east) {
+            \includegraphics[keepaspectratio=true,scale=0.7]{UoG_keyline.pdf}
+        };
+
+        \node [anchor=west, xshift=0.2cm] at (current page.west |- logo.west) {
+            \begin{minipage}{0.65\paperwidth}\raggedright
+                {\usebeamerfont{title}\usebeamercolor[white]{}\inserttitle}\\[0.1cm]
+                {\usebeamerfont{author}\usebeamercolor[white]{}\insertauthor}
+            \end{minipage}
+        };
+    \end{tikzpicture}
+}
+
+\setbeamertemplate{section page}
+{
+    \begin{centering}
+        \begin{beamercolorbox}[sep=12pt,center]{part title}
+            \usebeamerfont{section title}\insertsection\par
+        \end{beamercolorbox}
+    \end{centering}
+}
+
+\newcommand{\frameofframes}{/}
+\newcommand{\setframeofframes}[1]{\renewcommand{\frameofframes}{#1}}
+
+\makeatletter
+\setbeamertemplate{footline}
+{%
+    \begin{beamercolorbox}[colsep=1.5pt]{upper separation line foot}
+    \end{beamercolorbox}
+    \begin{beamercolorbox}[ht=2.5ex,dp=1.125ex,%
+        leftskip=.3cm,rightskip=.3cm plus1fil]{author in head/foot}%
+        \leavevmode{\usebeamerfont{author in head/foot}\insertshortauthor}%
+        \hfill%
+        {\usebeamerfont{institute in head/foot}\usebeamercolor[fg]{institute in head/foot}\insertshortinstitute}%
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[ht=2.5ex,dp=1.125ex,%
+        leftskip=.3cm,rightskip=.3cm plus1fil]{title in head/foot}%
+        {\usebeamerfont{title in head/foot}\insertshorttitle}%
+        \hfill%
+        {\usebeamerfont{frame number}\usebeamercolor[fg]{frame number}\insertframenumber~\frameofframes~\inserttotalframenumber}
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[colsep=1.5pt]{lower separation line foot}
+    \end{beamercolorbox}
+}
+
+% }}}
+
+\title{Linear Constraints}
+\author{Ciaran McCreesh}
+
+\begin{document}
+
+{
+    \usebackgroundtemplate{
+        \tikz[overlay, remember picture]
+        \node[at=(current page.south), anchor=south, inner sep=0pt]{\includegraphics[keepaspectratio=true, width=\paperwidth]{background4.jpg}};
+    }
+    \begin{frame}[plain,noframenumbering]
+        \titlepage
+    \end{frame}
+}
+
+\begin{frame}{Linear (or Scalar) Products}
+    \begin{itemize}
+        \item Let $c$ be an array of constants and $v$ an array of variables. The \emph{scalar
+            product} of $c$ and $v$ is \begin{align*}
+        c \cdot v = \sum_{i \in A}{c[i] \times v[i]}\end{align*}
+        \item We constrain this with an operator to another variable (or constant). The operator can
+            be an equation ($=$), or an inequality ($\le$ or $\ge$).
+        \item In MiniZinc, the compiler automatically detects constraints like $3 * x + 2 * y <= 10$
+            and $sum(i \operatorname{in} s)(a[i] * b[i]) = 12$.
+        \item These are known as \emph{linear} equalities and inequalities, because
+            geometrically they define a straight line.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{What Can We Do?}
+    \vspace*{-1em}
+    \begin{align*}
+        & x_1 \in \{ 0, 2 \} \\
+        & x_2 \in \{ 0, 1 \} \\
+        & x_3 \in \{ 0, 2 \} \\
+        & 5x_1 + 2x_2 + x_3 \ge 8
+    \end{align*}
+
+    \begin{itemize}
+        \item <2-> $x_1$ must be at least $1$, because we can get at most $(2 *
+            1) + (1 * 2) = 4$ from the other two variables.
+        \item <3-> $x_2$ and $x_3$ don't change, because $x_1 = 2$ can satisfy the inequality on its own.
+        \item <4-> What if $x_1 \in \{ 0, 1 \}$?
+            \begin{itemize}
+            \item <5-> $x_2$ can't be $0$, because we can only get $(5 * 1) + (1 * 2) = 7$ from the other two
+                without its help.
+            \item <6-> $x_3$ can't be $0$, because we can only get $(5 * 1) + (2 * 1) = 7$ from the other two
+                variables without its help.
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{The Slack Algorithm for $\ge$ Inequalities}
+    \begin{itemize}
+        \item Feasibility: if every variable contributes as much as possible,
+            do we have enough?
+        \item Filtering: for each variable in turn, what's the most the
+            remaining variables can contribute, and how much do I have to
+            contribute if this happens?
+            \begin{itemize}
+                \item Assuming only positive numbers, this might increase lower bounds.
+            \end{itemize}
+        \item Actual algorithm removed for mental health reasons\ldots
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{In Choco}
+    \only<1> {
+        \lstinputlisting[language=Java, basicstyle=\scriptsize\ttfamily, keywordstyle=\color{uofgcobalt}]{code/Scalar-snippet.java}
+    }
+    \only<2> {
+        \begin{minipage}{0.47\paperwidth}\lstinputlisting[basicstyle=\scriptsize\ttfamily]{code/Scalar-output.txt}
+        \end{minipage}\begin{minipage}{0.44\paperwidth}\lstinputlisting[basicstyle=\scriptsize\ttfamily]{code/Scalar-output2.txt}
+        \end{minipage}
+    }
+\end{frame}
+
+\begin{frame}{Remember Generalised Arc Consistency?}
+    \begin{itemize}
+        \item A \emph{binary} constraint is arc consistent if we can pick any value from either of its
+            two variables, and find a supporting value in the other variable.
+        \item A global constraint is generalised arc consistent (GAC) if each value
+            is present in at least one solution to the constraint.
+        \item Enforcing GAC will only touch upper and lower bounds for
+            linear inequalities.
+            \begin{itemize}
+                \item We could also define \emph{bounds} consistency.
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Linear Equalities}
+    \begin{itemize}
+        \item What if we have an equation, rather than an inequality?
+            \begin{align*}x = \sum_{i \in A}{c[i] \times v[i]}\end{align*}
+        \item <2-> The subset sum problem is \NP-complete\ldots
+        \item <3-> We can enforce GAC on a $\le$ constraint and a $\ge$
+            constraint simultaneously. This is \textbf{not} the same as enforcing GAC
+            on the equality.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{In Choco}
+    \only<1> {
+        \lstinputlisting[language=Java, basicstyle=\scriptsize\ttfamily, keywordstyle=\color{uofgcobalt}]{code/SmallScalarEquality-snippet.java}
+    }
+    \only<2> {
+        \lstinputlisting[basicstyle=\scriptsize\ttfamily]{code/SmallScalarEquality-output.txt}
+    }
+\end{frame}
+
+\begin{frame}{In Choco (Attempt Two)}
+    \only<1> {
+        \lstinputlisting[language=Java, basicstyle=\scriptsize\ttfamily, keywordstyle=\color{uofgcobalt}]{code/BigScalarEquality-snippet.java}
+    }
+    \only<2> {
+        \begin{minipage}{0.47\paperwidth}\lstinputlisting[basicstyle=\scriptsize\ttfamily]{code/BigScalarEquality-output.txt}
+        \end{minipage}\begin{minipage}{0.44\paperwidth}\lstinputlisting[basicstyle=\scriptsize\ttfamily]{code/BigScalarEquality-output2.txt}
+        \end{minipage}
+    }
+\end{frame}
+
+\begin{frame}{I'm Telling You This Twice Because It's Important}
+    \begin{itemize}
+        \item Propagation and consistency both depend upon how exactly you represent constraints.
+        \item Modelling languages and solvers will \emph{sometimes} help you out.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Linear Programming}
+    \begin{itemize}
+        \item If all your variables are real numbers\ldots
+        \item And all of your constraints are linear constraints\ldots
+        \item And if your objective function is a linear sum\ldots
+        \item \ldots Then you should use a \emph{linear programming} solver instead. These run in
+            low order polynomial time\footnote{Terms and conditions apply.}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Mixed Integer Programming}
+    \begin{itemize}
+        \item Like linear programming, except some or all variables can be required to be integers.
+        \item This makes it hard again.
+        \item Mixed integer programming solvers work very differently to constraint programming
+            solvers, and can be much faster for some problems.
+        \item Turning constraints into linear inequalities can be difficult. MiniZinc can compile
+            \emph{some} constraints to MIP automatically.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{SAT Solving (Going Even Further Off Topic)}
+    \begin{itemize}
+        \item All variables are booleans, and all constraints are in CNF.
+        \item Much more restricted input than CP, but much faster supporting algorithms.
+        \item Solvers are driven by \emph{unit propagation} and \emph{clause learning}.
+            \begin{itemize}
+                \item Rather than backtracking on failure, SAT solvers analyse the cause of the
+                    failure, and produce a new constraint forbidding the cause.
+                \item Propagating CNF much faster than propagating constraints
+                    (terms and conditions apply).
+            \end{itemize}
+        \item MiniZinc can compile to SAT.
+        \item Impossible to get GAC on all-different from a polynomial-sized
+            CNF encoding, though\ldots
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Jess Probably Isn't Mean Enough To Ask This On A Test}
+
+    Consider the following constraint:
+    \begin{align*}
+        2x_1 - 2x_2 + 4x_3 \ge 11
+    \end{align*}
+    Given $x_1 \in \{ 2, 3, 4, 5 \}$, $x_2 \in \{ 1, 2, 3, 50 \}$ and $x_4 \in \{ 0, 1, 2
+    \}$, prove $x_2 \ne 50$. What else can we infer?
+
+    Now suppose we add a second constraint,
+    \begin{align*}
+        2x_1 - 2x_2 + 4x_3 \le 11
+    \end{align*}
+    Why is enforcing bounds consistency on these two constraints \emph{not} the same as enforcing
+    bounds consistency on this single equality constraint?
+    \begin{align*}
+        2x_1 - 2x_2 + 4x_3 = 11
+    \end{align*}
+
+\end{frame}
+
+\begin{frame}[plain,noframenumbering]
+    \begin{tikzpicture}[remember picture, overlay]
+        \node at (current page.north west) {
+            \begin{tikzpicture}[remember picture, overlay]
+                \fill [fill=uofguniversityblue, anchor=north west] (0, 0) rectangle (\paperwidth, -1.7cm);
+            \end{tikzpicture}
+        };
+
+        \node (logo) [anchor=north east, shift={(-0.3cm,-0.2cm)}] at (current page.north east) {
+            \includegraphics[keepaspectratio=true,scale=0.55]{UoG_keyline.pdf}
+        };
+    \end{tikzpicture}
+\end{frame}
+
+\end{document}

@@ -1,0 +1,16 @@
+
+ Model[ScalarEquality]
+
+[ 4 vars -- 1 cstrs ]
+satisfaction  : undefined
+== variables ==
+x1 = {2..5}
+x2 = {2..5}
+x3 = {2..5}
+cste -- 11 = 11
+== constraints ==
+TABLE ([CSPLarge({x3 = {2..5}, , x2 = {2..5}, , x1 = {2..5}, })])
+
+Exception in thread "main" CONTRADICTION (CSPLarge(
+    {x3 = {2..5}, , x2 = {2..5}, , x1 = {2..5}, }),
+    x3 = {2..5}) : new upper bound is lesser than lower bound

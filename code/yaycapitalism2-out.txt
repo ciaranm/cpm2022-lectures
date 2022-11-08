@@ -1,0 +1,17 @@
+Running yaycapitalism2.mzn
+
+----------
+Off   Off   Off   Off   Off   Off   Off   Off   Off   Off   Off   Off   Off   Off
+Off   Off   Off   Off   Off   Off   Off   Off   Off   Off   Off   Off   Off   Off
+Off   Off   Off   Off   Off   Off   Off   Off   Off   Off   Off   Off   Off   Off
+Day   Day   Day   Day   Day   Off   Night Night Off   Day   Day   Day   Day   Day
+Day   Day   Day   Day   Day   Off   Night Night Off   Day   Day   Day   Day   Day
+Day   Day   Day   Off   Night Night Off   Day   Day   Day   Day   Off   Night Night
+Day   Day   Day   Off   Night Night Off   Day   Day   Day   Day   Off   Night Night
+Night Night Off   Day   Day   Day   Day   Off   Night Night Off   Day   Day   Day
+Night Night Off   Day   Day   Day   Day   Off   Night Night Off   Day   Day   Day
+Off   Off   Night Night Off   Day   Day   Day   Day   Off   Night Night Off   Off
+Off   Off   Night Night Off   Day   Day   Day   Day   Off   Night Night Off   Off
+----------
+==========
+Finished in 3s 79msec.

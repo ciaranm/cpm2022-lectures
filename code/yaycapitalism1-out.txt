@@ -1,0 +1,15 @@
+Running yaycapitalism1.mzn
+
+Day   Day   Day   Day   Day   Off   Night Night Off   Night Night Off   Day   Day
+Day   Day   Day   Day   Day   Off   Night Night Off   Night Night Off   Night Night
+Day   Day   Day   Day   Day   Off   Off   Day   Day   Day   Day   Day   Off   Off
+Day   Day   Day   Day   Day   Off   Off   Off   Night Off   Day   Day   Day   Day
+Night Night Off   Night Night Off   Off   Off   Night Off   Day   Day   Day   Day
+Night Night Off   Night Off   Day   Day   Day   Day   Day   Off   Night Off   Off
+Off   Off   Night Off   Night Night Off   Off   Off   Off   Day   Day   Day   Day
+Off   Off   Night Off   Off   Day   Day   Day   Day   Day   Off   Night Off   Off
+Off   Off   Off   Off   Off   Day   Day   Day   Day   Day   Off   Off   Night Night
+Off   Off   Off   Off   Off   Day   Day   Off   Off   Off   Off   Off   Off   Off
+Off   Off   Off   Off   Off   Night Off   Off   Off   Off   Off   Off   Off   Off
+----------
+Finished in 178msec.
