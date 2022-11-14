@@ -3,6 +3,7 @@ all : tables graphs
 	latexmk -pdf -pdflatex='pdflatex -interaction=nonstopmode %O %S' linear
 	latexmk -pdf -pdflatex='pdflatex -interaction=nonstopmode %O %S' table
 	latexmk -pdf -pdflatex='pdflatex -interaction=nonstopmode %O %S' parallel
+	latexmk -pdf -pdflatex='pdflatex -interaction=nonstopmode %O %S' proofs
 
 TABLES =
 
